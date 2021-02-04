@@ -1,0 +1,17 @@
+rootProject.name = 'VultureStation'
+
+include 'ApiLayer'
+findProject(':ApiLayer')?.name = 'apilayer'
+
+include 'Nas'
+findProject(':Nas')?.name = 'nas'
+
+include 'Auth'
+findProject(':Auth')?.name = 'auth'
+
+include 'Datalayer'
+findProject(':Datalayer')?.name = 'datalayer'
+
+include 'Iot'
+findProject(':Iot')?.name = 'iot'
+
