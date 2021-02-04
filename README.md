@@ -1,2 +1,3 @@
-# Vulture-Station
-Vulture服务端
+# Vulture Station
+
+Personal NAS server and Home IOT gateway
