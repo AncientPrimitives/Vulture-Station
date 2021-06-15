@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group 'com.cobox.iot.vulture'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api("io.vertx:vertx-core:$vertxVersion") // Vert.x baseline
+    api("io.vertx:vertx-lang-kotlin:$vertxVersion") // kotlin for Vert.x
+    api("io.vertx:vertx-web:$vertxVersion") // Web client for Vert.x
+    api("io.vertx:vertx-web-client:$vertxVersion") // Vert.X WebClient for HTTP
+    api("io.vertx:vertx-auth-common:$vertxVersion") // AuthKit for Vert.x
+
+    implementation(project(":utilities"))
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}

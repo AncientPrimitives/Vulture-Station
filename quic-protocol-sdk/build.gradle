@@ -1,0 +1,82 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.multiplatform'
+}
+
+group 'com.cobox.iot.vulture'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+kotlin {
+    /* Targets configuration omitted.
+    *  To find out how to configure the targets, please follow the link:
+    *  https://kotlinlang.org/docs/reference/building-mpp-with-gradle.html#setting-up-targets */
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation kotlin('stdlib-common')
+
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation kotlin('test-common')
+                implementation kotlin('test-annotations-common')
+            }
+        }
+    }
+
+    linuxX64("native") {  // on Linux
+        // macosX64("native") { // on macOS
+        // mingwX64("native") { //on Windows
+        compilations.main.cinterops {
+            interop
+        }
+
+        binaries {
+            sharedLib()
+        }
+    }
+
+//    linuxArm64("native") {
+//        compilations.main {
+//            cinterops {
+//                msquicInterop {
+//                    // Def-file describing the native API.
+//                    // The default path is src/nativeInterop/cinterop/<interop-name>.def
+//                    defFile project.file("interop.def")
+//
+//                    // Package to place the Kotlin API generated.
+//                    packageName 'com.nero.msquic.external'
+//
+//                    // Options to be passed to compiler by cinterop tool.
+//                    compilerOpts '-Imsquic/include'
+//
+//                    // Directories for header search (an analogue of the -I<path> compiler option).
+//                    //includeDirs.allHeaders("path1", "path2")
+//
+//                    // A shortcut for includeDirs.allHeaders.
+//                    includeDirs("msquic/include", "msquic/include")
+//                }
+//            }
+//        }
+//
+//        binaries {
+//            sharedLib()
+//        }
+//    }
+
+}
+test {
+    useJUnitPlatform()
+}

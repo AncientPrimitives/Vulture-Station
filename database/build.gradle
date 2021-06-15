@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group 'com.cobox.iot.vulture'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.vertx:vertx-core:$vertxVersion") // Vert.x baseline
+    implementation("io.vertx:vertx-lang-kotlin:$vertxVersion") // kotlin for Vert.x
+    implementation("io.vertx:vertx-config:$vertxVersion") // Config retriever for Vert.x
+    implementation("io.vertx:vertx-jdbc-client:$vertxVersion") // JDBC clent for Vert.x
+    implementation("org.xerial:sqlite-jdbc:$sqliteVersion") // Sqlite for JDBC
+
+    implementation(project(":utilities"))
+    implementation(project(":sdk"))
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+test {
+    useJUnitPlatform()
+}
