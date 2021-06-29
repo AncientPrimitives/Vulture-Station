@@ -19,38 +19,25 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    strategy:
-            matrix:
-                java: [8, 11]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with: java-version:${{ matrix.java }}
+      - name: Checkout Repo 
+        uses: actions/checkout@v2
 
       # Runs a set of commands using the runners shell
-      - name: Cache .gradle/caches
+      - name: Cache Gradle Caches
         uses: actions/cache@v1
         with:
               path: ~/.gradle/caches
-              key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-              restore-keys: ${{ runner.os }}-gradle-
-              
+              key: cache-gradle-cache
+
       - name: Cache .gradle/wrapper
         uses: actions/cache@v1
         with:
-              path: ~/.gradle/wrapper
-              key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/*.gradle') }}
-              restore-keys: ${{ runner.os }}-gradle-wrapper-
-              
-      - name: Grant execute permission for gradlew
-        run: |
-             echo Grant x permission for gradlew
-             chmod +x gradlew
-      
-      - name: Build with Gradle
-        run: |
-             echo Execute building...
-             ./gradlew clean build -s
+              path: ~/.gradle/wrapper/
+              key: cache-gradle-wrapper
+
+      - name: Publish on Plugin Portal
+        run: ./gradlew build
