@@ -1,0 +1,4 @@
+package = msquic
+headers = include/msquic.h include/msquic_posix.h include/quic_sal_stub.h
+headerFilter = include/**
+linkerOpts = -lmsquic -lmsquic.lttng

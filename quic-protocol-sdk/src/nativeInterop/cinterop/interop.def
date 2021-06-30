@@ -1,4 +1,0 @@
-headers = /Users/cocoonshu/Subversions/CoboxGit/VultureSolution/Vulture-Station/quic-protocol-sdk/msquic/include/msquic.h
-headerFilter = /Users/cocoonshu/Subversions/CoboxGit/VultureSolution/Vulture-Station/quic-protocol-sdk/msquic/include/*
-linkerOpts = /Users/cocoonshu/Subversions/CoboxGit/VultureSolution/Vulture-Station/quic-protocol-sdk/msquic/bin/libmsquic.so \
-             /Users/cocoonshu/Subversions/CoboxGit/VultureSolution/Vulture-Station/quic-protocol-sdk/msquic/bin/libmsquic.lttng.so
