@@ -1,6 +1,10 @@
 language: java
-jdk:
-  - openjdk11
+jdk: oraclejdk8
+sudo: false
+
 before_install:
   - chmod +x gradlew
   - chmod +x gradle/wrapper/gradle-wrapper.jar
+
+script:
+  - ./gradlew build
