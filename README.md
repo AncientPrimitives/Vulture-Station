@@ -21,6 +21,3 @@
 
 ![模块图](./img/模块.png)
 
-# TODO List
- - 移植天气节点到api.vulture.com
- - Log输入到文件，以便作为服务启动时没有log输出
