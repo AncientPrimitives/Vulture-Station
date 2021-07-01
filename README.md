@@ -1,4 +1,5 @@
 ![](https://travis-ci.org/Mysterious-organization/Vulture-Station.svg?branch=main)
+[![Build](https://github.com/Mysterious-organization/Vulture-Station/workflows/Build/badge.svg)](https://github.com/fwcd/kotlin-language-server/actions)
 
 # 工程结构
 
