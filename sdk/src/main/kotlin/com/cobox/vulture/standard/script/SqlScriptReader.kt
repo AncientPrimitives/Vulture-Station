@@ -16,7 +16,15 @@ class SqlScriptReader: ScriptReader {
     override val isEOF: Boolean
         get() = (position >= endLimit)
 
+    override val isClosed: Boolean
+        get() = false
+
     constructor(content: String): this(Buffer.buffer(content))
+
+    constructor(path: String, charset: Charset = Charsets.UTF_8): super(path) {
+        TODO()
+    }
+
     constructor(content: Buffer, charset: Charset = Charsets.UTF_8): super(content, charset) {
         this.buffer = content
         this.charset = charset
@@ -39,6 +47,10 @@ class SqlScriptReader: ScriptReader {
             }
         }
         return null
+    }
+
+    override fun close() {
+        // 仅对文件有效，但文件还未实现
     }
 
 }
