@@ -42,7 +42,6 @@ kotlin {
                 }
             }
 
-
             compilations["main"].cinterops {
                 val msquic by creating {
                     when (preset) {
@@ -89,4 +88,7 @@ kotlin {
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib")
     }
+}
+dependencies {
+    implementation(kotlin("stdlib-jdk8"))
 }
