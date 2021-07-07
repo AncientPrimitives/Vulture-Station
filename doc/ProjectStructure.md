@@ -14,8 +14,8 @@ sdk      | business, standard                            |
 
 ## 架构层级
 
-![层级图](doc/img/层级.png)
+![层级图](img/层级.png)
 
 ## 模块结构
 
-![模块图](doc/img/模块.png)
+![模块图](img/模块.png)
