@@ -27,5 +27,14 @@ class QuicProtocol {
             println("can't set config for quic, status is $invokeStatus")
             return
         }
+        var loadStatus = QUIC_STATUS_SUCCESS
+        memScoped {
+            var listener:CPointerVar<HQUICVar> = alloc()
+            var address = cValue<QUIC_ADDR> {
+                0
+            }
+            QuicAddrSetFamily(address, QUIC_ADDRESS_FAMILY_UNSPEC)
+            QuicAddrSetPort(address, port.toUShort());
+        }
     }
 }
