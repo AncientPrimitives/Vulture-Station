@@ -27,13 +27,17 @@ class QuicProtocol {
             println("can't set config for quic, status is $invokeStatus")
             return
         }
+        //初始化status
         var loadStatus = QUIC_STATUS_SUCCESS
         memScoped {
+            //创建监听指针
             var listener:CPointerVar<HQUICVar> = alloc()
             var address = cValue<QUIC_ADDR> {
                 0
             }
+            //设置地址
             QuicAddrSetFamily(address, QUIC_ADDRESS_FAMILY_UNSPEC)
+            //设置端口
             QuicAddrSetPort(address, port.toUShort());
         }
     }
