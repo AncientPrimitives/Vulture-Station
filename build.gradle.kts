@@ -30,6 +30,7 @@ dependencies {
     implementation(project("nas-server"))
     implementation(project("user-server"))
     implementation(project("ddns-server"))
+    implementation(project("system_monitor"))
     implementation(project("database"))
     implementation(project("sdk"))
     implementation(project("utilities"))

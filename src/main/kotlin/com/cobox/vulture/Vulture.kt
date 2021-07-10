@@ -1,5 +1,6 @@
 package com.cobox.vulture
 
+import com.cobox.iot.vulture.system.SystemMonitor
 import com.cobox.utilites.log.Log
 import com.cobox.vulture.standard.xutil.Text
 import com.cobox.vulture.standard.xutil.Text.EMPTY_TEXT
@@ -17,9 +18,6 @@ import java.lang.management.ManagementFactory
 import java.util.*
 import java.io.PrintStream
 
-
-
-
 const val TAG = "Main"
 const val Version = "1.1.0"
 
@@ -27,7 +25,36 @@ class Vulture {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
+            dumpSystemMonitor()
             Vulture().deploy()
+        }
+
+        @JvmStatic
+        fun dumpSystemMonitor() {
+            SystemMonitor().let { monitor ->
+                monitor.refreshCpuInfo()
+                println("""
+                    Cpu usage
+                    * core: ${monitor.getCoreSize()}
+                """.trimIndent())
+
+                for (i in 0 until monitor.getCoreSize()) {
+                    val total = monitor.getTotalCpuUsage(i)
+                    val user = monitor.getUserCpuUsage(i)
+                    val system = monitor.getSystemCpuUsage(i)
+                    val free = monitor.getFreeCpuUsage(i)
+                    val avgTotal = monitor.getTotalCpuAvgUsage(i)
+                    val avgUser = monitor.getUserCpuAvgUsage(i)
+                    val avgSystem = monitor.getSystemCpuAvgUsage(i)
+                    val avgFree = monitor.getFreeCpuAvgUsage(i)
+
+                    if (i == 0) {
+                        println("CPU: total=$total(avg $avgTotal) user=$user(avg $avgUser) system=$system(avg $avgSystem) free=$free(avg $avgFree)")
+                    } else {
+                        println("CPU #${i}: total=$total(avg $avgTotal) user=$user(avg $avgUser) system=$system(avg $avgSystem) free=$free(avg $avgFree)")
+                    }
+                }
+            }
         }
     }
 
