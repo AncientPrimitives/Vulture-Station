@@ -1,8 +1,10 @@
 package com.cobox.iot.vulture.system.linux
 
 import com.cobox.iot.vulture.system.CpuMonitor
+import com.cobox.iot.vulture.system.SystemMonitor
 import com.cobox.utilites.log.Log
 import com.cobox.vulture.standard.script.ShellReader
+import java.nio.charset.Charset
 
 class LinuxCpuMonitor: CpuMonitor {
     companion object {
@@ -141,43 +143,51 @@ class LinuxCpuMonitor: CpuMonitor {
     }
 
     private fun queryCpuUsageInfo(usageInfo: MutableMap<Int, CpuUsageInfo>) {
-        ShellReader("/proc/stat").use { reader ->
-            reader.readLine()?.let { line ->
-                if (!line.startsWith("cpu")) return@let
-                line.split(" ").let { columns ->
-                    kotlin.runCatching {
-                        val name: String = columns[0].trim()
-                        val user: Long = columns[1].trim().toLong()
-                        val nice: Long = columns[2].trim().toLong()
-                        val system: Long = columns[3].trim().toLong()
-                        val idle: Long = columns[4].trim().toLong()
-                        val iowait: Long = columns[5].trim().toLong()
-                        val irrq: Long = columns[6].trim().toLong()
-                        val softirq: Long = columns[7].trim().toLong()
-                        val steal: Long = columns[8].trim().toLong()
-                        val guest: Long = columns[9].trim().toLong()
-                        val guest_nice: Long = columns[10].trim().toLong()
+        ShellReader("/proc/stat", Charset.forName("utf-8")).use { reader ->
+            while (true) {
+                reader.readLine()?.let { line ->
+                    if (!line.startsWith("cpu")) return@let
+                    line.split("\\s+".toRegex()).let { columns ->
+                        kotlin.runCatching {
+                            val name: String = columns[0].trim()
+                            val user: Long = columns[1].trim().toLong()
+                            val nice: Long = columns[2].trim().toLong()
+                            val system: Long = columns[3].trim().toLong()
+                            val idle: Long = columns[4].trim().toLong()
+                            val iowait: Long = columns[5].trim().toLong()
+                            val irrq: Long = columns[6].trim().toLong()
+                            val softirq: Long = columns[7].trim().toLong()
+                            val steal: Long = columns[8].trim().toLong()
+                            val guest: Long = columns[9].trim().toLong()
+                            val guest_nice: Long = columns[10].trim().toLong()
 
-                        val cpuIndex = name.split("cpu").let { nameColumns ->
-                            if (nameColumns.size < 2) 0 else nameColumns[1].toInt()
-                        }
-                        val totalJiffies = user + nice + system + idle + iowait + irrq
-                                         + softirq + steal + guest + guest_nice
+                            val cpuIndex = name.split("cpu").let { nameColumns ->
+                                if (nameColumns.size < 2) {
+                                    0
+                                } else {
+                                    if (nameColumns[1].trim().isEmpty()) 0 else (nameColumns[1].toInt() + 1)
+                                }
+                            }
+                            val totalJiffies = user + nice + system + idle + iowait + irrq
+                            + softirq + steal + guest + guest_nice
 
-                        CpuUsageInfo(
-                            name = name,
-                            cpuIndex = cpuIndex,
-                            userUsage = (user.toDouble() / totalJiffies.toDouble()).toFloat(),
-                            systemUsage = (system.toDouble() / totalJiffies.toDouble()).toFloat(),
-                            freeUsage = (idle.toDouble() / totalJiffies.toDouble()).toFloat(),
-                            details = CpuJiffies(
-                                user, nice, system, idle, iowait, irrq, softirq, steal, guest, guest_nice
-                            )
-                        ).let { info ->
-                            usageInfo.put(cpuIndex, info)
+                            CpuUsageInfo(
+                                name = name,
+                                cpuIndex = cpuIndex,
+                                userUsage = (user.toDouble() / totalJiffies.toDouble()).toFloat(),
+                                systemUsage = (system.toDouble() / totalJiffies.toDouble()).toFloat(),
+                                freeUsage = (idle.toDouble() / totalJiffies.toDouble()).toFloat(),
+                                details = CpuJiffies(
+                                    user, nice, system, idle, iowait, irrq, softirq, steal, guest, guest_nice
+                                )
+                            ).let { info ->
+                                usageInfo.put(cpuIndex, info)
+                            }
+                        }.onFailure {
+                            Log.error(TAG, "[queryCpuUsageInfo]", it)
                         }
                     }
-                }
+                } ?: return@use
             }
         }
     }
