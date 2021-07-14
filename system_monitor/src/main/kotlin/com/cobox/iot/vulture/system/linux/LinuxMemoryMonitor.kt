@@ -109,6 +109,10 @@ class LinuxMemoryMonitor: MemoryMonitor {
 
     override fun getAvailableRam(): Long = usages[MemoryColumn.MemAvailable.columnName] ?: 0L
 
+    override fun getTotalSwap(): Long = usages[MemoryColumn.SwapTotal.columnName] ?: 0L
+
+    override fun getFreeSwap(): Long = usages[MemoryColumn.SwapFree.columnName] ?: 0L
+
     override fun getRam(column: String): Long = usages[MemoryColumn.convertToMemoryColumn(column).columnName] ?: 0L
 
     override fun refreshMemoryInfo() {

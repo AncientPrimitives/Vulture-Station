@@ -19,12 +19,15 @@ interface MemoryMonitor {
     fun getTotalRam(): Long = 0L
     fun getFreeRam(): Long = 0L
     fun getAvailableRam(): Long = 0L
+    fun getTotalSwap(): Long = 0L
+    fun getFreeSwap(): Long = 0L
     fun getRam(column: String): Long = 0L
     fun refreshMemoryInfo()
 }
 
 interface TemperatureMonitor {
-    fun getTemperature(): Float = 0.0f
+    fun getTemperature(slot: Int = 0): Float = Float.NaN
+    fun getTemperatureCount(): Int
     fun refreshTemperatureInfo()
 }
 
@@ -73,11 +76,28 @@ fun LinuxCpuMonitorTest() {
                      - total: ${monitor.getTotalRam().MB()} MB
                      - available: ${monitor.getAvailableRam().MB()} MB
                      - free: ${monitor.getFreeRam().MB()} MB
+                    Swap usage
+                     - total: ${monitor.getTotalSwap().MB()} MB
+                     - free: ${monitor.getFreeSwap().MB()} MB
                 """.trimIndent())
+    }
+
+    val temperatureMonitor: (SystemMonitor) -> Unit = { monitor ->
+        monitor.refreshTemperatureInfo()
+        println("""
+                    Temperature
+                     * sensors: ${monitor.getTemperatureCount()}
+        """.trimIndent())
+
+        for (i in 0 until monitor.getTemperatureCount()) {
+            val temperature = monitor.getTemperature(i)
+            println(" - Temperature #${i}: $temperature °C")
+        }
     }
 
     SystemMonitor().let { monitor ->
         cpuMonitor(monitor)
         memoryMonitor(monitor)
+        temperatureMonitor(monitor)
     }
 }
