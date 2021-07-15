@@ -1,6 +1,6 @@
-package com.cobox.iot.vulture.system.windows
+package com.cobox.vulture.system.windows
 
-import com.cobox.iot.vulture.system.TemperatureMonitor
+import com.cobox.vulture.system.TemperatureMonitor
 
 class WindowsTemperatureMonitor: TemperatureMonitor {
     override fun getTemperature(slot: Int): Float {

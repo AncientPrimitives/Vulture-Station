@@ -1,4 +1,4 @@
-package com.cobox.iot.vulture.system
+package com.cobox.vulture.system
 
 import com.cobox.utilites.unit.MB
 

@@ -1,6 +1,6 @@
-package com.cobox.iot.vulture.system.linux
+package com.cobox.vulture.system.linux
 
-import com.cobox.iot.vulture.system.MemoryMonitor
+import com.cobox.vulture.system.MemoryMonitor
 import com.cobox.utilites.log.Log
 import com.cobox.utilites.unit.StorageUnit
 import com.cobox.utilites.unit.toStorageUnit

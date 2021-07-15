@@ -1,6 +1,6 @@
-package com.cobox.iot.vulture.system.windows
+package com.cobox.vulture.system.windows
 
-import com.cobox.iot.vulture.system.MemoryMonitor
+import com.cobox.vulture.system.MemoryMonitor
 
 class WindowsMemoryMonitor: MemoryMonitor {
     override fun getTotalRam(): Long {

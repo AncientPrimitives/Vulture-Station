@@ -1,6 +1,6 @@
-package com.cobox.iot.vulture.system.stub
+package com.cobox.vulture.system.stub
 
-import com.cobox.iot.vulture.system.TemperatureMonitor
+import com.cobox.vulture.system.TemperatureMonitor
 
 class StubTemperatureMonitor: TemperatureMonitor {
     override fun getTemperature(slot: Int): Float = Float.NaN

@@ -1,7 +1,7 @@
-package com.cobox.iot.vulture.system.linux
+package com.cobox.vulture.system.linux
 
-import com.cobox.iot.vulture.system.CpuMonitor
-import com.cobox.iot.vulture.system.SystemMonitor
+import com.cobox.vulture.system.CpuMonitor
+import com.cobox.vulture.system.SystemMonitor
 import com.cobox.utilites.log.Log
 import com.cobox.vulture.standard.script.ShellReader
 import java.nio.charset.Charset
@@ -37,7 +37,7 @@ class LinuxCpuMonitor: CpuMonitor {
     private val avgCpuUsages = mutableMapOf<Int, CpuUsageInfo>()
     private val curCpuUsages = mutableMapOf<Int, CpuUsageInfo>()
 
-    override fun getCoreSize(): Int = curCpuUsages.size
+    override fun getCoreSize(): Int = (curCpuUsages.size - 1).coerceAtLeast(0)
 
     override fun getTotalCpuUsage(slot: Int): Float =
         curCpuUsages[slot]?.let { usage ->

@@ -1,8 +1,8 @@
-package com.cobox.iot.vulture.system.macos
+package com.cobox.vulture.system.windows
 
-import com.cobox.iot.vulture.system.CpuMonitor
+import com.cobox.vulture.system.CpuMonitor
 
-class MacosCpuMonitor: CpuMonitor {
+class WindowsCpuMonitor: CpuMonitor {
     override fun getTotalCpuUsage(slot: Int): Float {
         TODO("Not yet implemented")
     }
@@ -38,4 +38,5 @@ class MacosCpuMonitor: CpuMonitor {
     override fun refreshCpuInfo() {
         TODO("Not yet implemented")
     }
+
 }

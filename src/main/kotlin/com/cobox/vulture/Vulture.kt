@@ -1,6 +1,6 @@
 package com.cobox.vulture
 
-import com.cobox.iot.vulture.system.LinuxCpuMonitorTest
+import com.cobox.vulture.system.LinuxCpuMonitorTest
 import com.cobox.utilites.log.Log
 import com.cobox.vulture.standard.xutil.Text
 import com.cobox.vulture.standard.xutil.Text.EMPTY_TEXT
@@ -25,7 +25,7 @@ class Vulture {
         @JvmStatic
         fun main(args: Array<String>) {
             LinuxCpuMonitorTest()
-            //Vulture().deploy()
+            Vulture().deploy()
         }
     }
 

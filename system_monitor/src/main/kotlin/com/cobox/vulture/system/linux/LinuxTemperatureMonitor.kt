@@ -1,6 +1,6 @@
-package com.cobox.iot.vulture.system.linux
+package com.cobox.vulture.system.linux
 
-import com.cobox.iot.vulture.system.TemperatureMonitor
+import com.cobox.vulture.system.TemperatureMonitor
 import java.io.File
 import java.io.FileReader
 

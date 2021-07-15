@@ -15,6 +15,17 @@ open class VultureServerModel(
         }
     }
 
+    fun clearCache() {
+        vertx.executeBlocking<Void> { task ->
+            kotlin.runCatching {
+                onClearCache()
+            }
+            task.complete()
+        }
+    }
+
     open protected fun onPrepareCache() {}
+
+    open protected fun onClearCache() {}
 
 }

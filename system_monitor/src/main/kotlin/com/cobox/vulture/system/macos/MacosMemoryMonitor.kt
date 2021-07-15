@@ -1,6 +1,6 @@
-package com.cobox.iot.vulture.system.macos
+package com.cobox.vulture.system.macos
 
-import com.cobox.iot.vulture.system.MemoryMonitor
+import com.cobox.vulture.system.MemoryMonitor
 
 class MacosMemoryMonitor: MemoryMonitor {
     override fun getTotalRam(): Long {

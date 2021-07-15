@@ -1,6 +1,6 @@
-package com.cobox.iot.vulture.system.macos
+package com.cobox.vulture.system.macos
 
-import com.cobox.iot.vulture.system.TemperatureMonitor
+import com.cobox.vulture.system.TemperatureMonitor
 
 class MacosTemperatureMonitor: TemperatureMonitor {
     override fun getTemperature(slot: Int): Float {
