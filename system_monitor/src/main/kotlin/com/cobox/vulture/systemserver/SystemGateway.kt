@@ -3,6 +3,7 @@ package com.cobox.vulture.systemserver
 import com.cobox.utilites.log.Log
 import com.cobox.vulture.busniess.framework.VultureHttpGateway
 import io.vertx.core.Vertx
+import io.vertx.core.file.OpenOptions
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Route
 import io.vertx.ext.web.Router
@@ -21,6 +22,7 @@ class SystemGateway(
         systemMemInfo,
         systemTempInfo,
         systemSummaryInfo,
+        systemSummaryPage,
         defaultRoute
     )
 
@@ -101,6 +103,14 @@ class SystemGateway(
                 }
 
                 request.response().end(result.result().body())
+            }
+        }
+    }
+
+    private val systemSummaryPage: (Router) -> Unit = { router ->
+        router.get("/system/summary/page").blockingHandler { ctx ->
+            ctx.vertx().fileSystem().readFile("./data/static/MonitorPreview.html") {
+                if (it.succeeded()) ctx.end(it.result()) else ctx.failed()
             }
         }
     }

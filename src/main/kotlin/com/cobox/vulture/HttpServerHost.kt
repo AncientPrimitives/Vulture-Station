@@ -11,6 +11,7 @@ import io.vertx.core.impl.future.FailedFuture
 import io.vertx.core.impl.future.SucceededFuture
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Router
+import io.vertx.ext.web.RoutingContext
 import java.io.File
 
 class HttpServerHost(
@@ -105,11 +106,18 @@ class HttpServerHost(
     }
 
     private fun createFaviconHandler(router: Router) {
-        router.route("/favicon.ico").blockingHandler { ctx ->
-            val favicon = File(staticResourceRoot).canonicalPath + "/favicon.ico"
-            vertx.fileSystem().readFile(favicon) {
-                if (it.succeeded()) ctx.end(it.result()) else ctx.fail(403)
+        val routeFile :((String) -> Unit) = { file ->
+            router.route(file).blockingHandler { ctx ->
+                val favicon = File(staticResourceRoot).canonicalPath + file
+                vertx.fileSystem().readFile(favicon) {
+                    if (it.succeeded()) ctx.end(it.result()) else ctx.fail(403)
+                }
             }
         }
+
+        routeFile("/favicon.ico")
+        routeFile("/SystemMonitor.js")
+        routeFile("/HUD.js")
+        routeFile("/fonts/GemunuLibre-SemiBold.ttf")
     }
 }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vulture Station</title>
+    <script type="text/javascript" src="/SystemMonitor.js"></script>
+    <script>
+    var refreshJob = null;
+    var monitor = null;
+
+    function onPageLoad() {
+        monitor = new SystemMonitor(document.getElementById("monitor"));
+        startRefreshMonitor();
+    }
+
+    function loadXMLDoc(dataCallback) {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // IE6, IE5 浏览器执行代码
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function() {
+            if ((xmlhttp.readyState == 4) && (xmlhttp.status == 200)) {
+                document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+                dataCallback(eval("(" + xmlhttp.responseText + ")"));
+            }
+        }
+        xmlhttp.open("GET", "/system/summary", true);
+        xmlhttp.send();
+    }
+
+    function updateMonitorData() {
+        loadXMLDoc(function(data) {
+
+            if (monitor) {
+                monitor.updateMemInfo(
+                    data.meminfo.totalMem,
+                    data.meminfo.availableMem,
+                    data.meminfo.freeMem,
+                    data.meminfo.totalSwap,
+                    data.meminfo.freeSwap
+                );
+                monitor.draw();
+            }
+        });
+    }
+
+    function startRefreshMonitor() {
+        if (refreshJob == null) {
+            refreshJob = window.setInterval(updateMonitorData, 1000);
+        }
+    }
+
+    function stopRefreshMonitor() {
+        if (refreshJob) {
+            clearInterval(refreshJob);
+            refreshJob = null;
+        }
+    }
+</script>
+</head>
+<body onload="onPageLoad()">
+    <div id="myDiv">
+        <h2>/proc/stat</h2>
+    </div>
+    <button type="button" onclick="startRefreshMonitor()">更新</button>
+    <button type="button" onclick="stopRefreshMonitor()">停止</button>
+    <canvas id="monitor" style="width:15cm; height:15cms; border:1px solid #c3c3c3" />
+</body>
+</html>
