@@ -32,13 +32,26 @@ class QuicProtocol {
         memScoped {
             //创建监听指针
             var listener:CPointerVar<HQUICVar> = alloc()
-            var address = cValue<QUIC_ADDR> {
-                0
-            }
+            val address = cValue<QUIC_ADDR>()
             //设置地址
             QuicAddrSetFamily(address, QUIC_ADDRESS_FAMILY_UNSPEC)
             //设置端口
             QuicAddrSetPort(address, port.toUShort());
+        }
+    }
+
+    fun loadServerConfig() {
+        val quicSetting = cValue<QUIC_SETTINGS>{
+            //设置服务器time out
+            val timeOut = 5000L
+            IdleTimeoutMs = timeOut.toULong()
+            IsSet.IdleTimeoutMs = TRUE.toULong()
+            //
+            // Configures the server's resumption level to allow for resumption and
+            // 0-RTT.
+            //
+            ServerResumptionLevel = QUIC_SERVER_RESUMPTION_LEVEL.QUIC_SERVER_RESUME_AND_ZERORTT.value.toUByte()
+            IsSet.ServerResumptionLevel = TRUE.toULong()
         }
     }
 }
