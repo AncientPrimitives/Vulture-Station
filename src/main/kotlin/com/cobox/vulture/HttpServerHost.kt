@@ -116,8 +116,15 @@ class HttpServerHost(
         }
 
         routeFile("/favicon.ico")
+        routeFile("/require.js")
+        routeFile("/SystemMonitorLoader.js")
+        routeFile("/SystemMonitorPage.js")
         routeFile("/SystemMonitor.js")
-        routeFile("/HUD.js")
+        routeFile("/Animation.js")
+        routeFile("/HUD/HUD.js")
+        routeFile("/HUD/CircleMeter.js")
+        routeFile("/HUD/CurveMeter.js")
         routeFile("/fonts/GemunuLibre-SemiBold.ttf")
+        routeFile("/fonts/DottedSongtiSquareRegular.otf")
     }
 }
