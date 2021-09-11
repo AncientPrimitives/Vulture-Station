@@ -109,6 +109,7 @@ export class DrawingObject {
 
     clientArea: Rect = new Rect(0, 0, DrawingObject.AUTO_SIZE, DrawingObject.AUTO_SIZE);
     root: DrawingDriver | null = null
+    clipToPadding: boolean = false
 
     attachToRoot(root: DrawingDriver) {
         this.root = root
@@ -130,6 +131,10 @@ export class DrawingObject {
 
     draw(ctx: CanvasRenderingContext2D) {
         ctx.save()
+        if (this.clipToPadding) {
+            ctx.rect(this.clientArea.left, this.clientArea.top, this.clientArea.width(), this.clientArea.height())
+            ctx.clip()
+        }
         ctx.translate(this.clientArea.left, this.clientArea.top)
         this.onDraw(ctx)
         ctx.restore()

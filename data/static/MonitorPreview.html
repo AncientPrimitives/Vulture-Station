@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <title>Monitor</title>
     <script src="/require.js" data-main="/SystemMonitorLoader.js"></script>
-<!--    <script src="/Animation.js"></script>-->
-<!--    <script src="/SystemMonitor.js"></script>-->
-<!--    <script src="/HUD/HUD.js"></script>-->
-<!--    <script src="/HUD/CircleMeter.js"></script>-->
-<!--    <script src="/HUD/CurveMeter.js"></script>-->
     <style>
         @font-face {
             font-family: 'HUD';
@@ -39,67 +34,7 @@
             box-shadow: 2px 2px 10px 1px #333333;
         }
     </style>
-    <script>
-        // let cpuMonitor = null;
-        // let memMonitor = null;
-        // let camMonitor = null;
-        // let envMonitor = null;
-        // let monitors = [camMonitor, cpuMonitor, memMonitor, envMonitor]
-        //
-        // let monitorJob = null;
-        //
-        // function onPageLoad() {
-        //     cpuMonitor = new CpuMonitor("CPU", document.getElementById("cpu_pane"))
-        //     memMonitor = new MemoryMonitor("MEM", document.getElementById("mem_pane"))
-        //     camMonitor = new CCTVMonitor("CCTV", document.getElementById("cam_pane"))
-        //     envMonitor = new EnvMonitor("Env", document.getElementById("env_pane"))
-        //
-        //     monitorJob = setInterval(function() {
-        //         loadXMLDoc(function (data) {
-        //             camMonitor.updateCCTVInfo()
-        //             cpuMonitor.updateCpuInfo()
-        //             memMonitor.updateMemInfo(
-        //                 data.meminfo.totalMem,
-        //                 data.meminfo.availableMem,
-        //                 data.meminfo.freeMem,
-        //                 data.meminfo.totalSwap,
-        //                 data.meminfo.freeSwap
-        //             )
-        //             envMonitor.updateEnvInfo()
-        //         })
-        //     }, 1000)
-        // }
-        // function onPageResize() {
-        //     for (let i = 0; i < monitors.length; i++) {
-        //         if (monitors[i]) monitors[i].requestResize()
-        //     }
-        // }
-        // function onPageInvalidate() {
-        //     for (let i = 0; i < monitors.length; i++) {
-        //         if (monitors[i]) monitors[i].requestRender()
-        //     }
-        // }
-        // function loadXMLDoc(dataCallback) {
-        //     var xmlhttp;
-        //     if (window.XMLHttpRequest) {
-        //         // IE7+, Firefox, Chrome, Opera, Safari
-        //         xmlhttp = new XMLHttpRequest();
-        //     } else {
-        //         // IE6, IE5
-        //         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        //     }
-        //
-        //     xmlhttp.onreadystatechange = function() {
-        //         if ((xmlhttp.readyState === XMLHttpRequest.DONE) && (xmlhttp.status === 200)) {
-        //             dataCallback(eval("(" + xmlhttp.responseText + ")"));
-        //         }
-        //     }
-        //     xmlhttp.open("GET", "/system/summary", true);
-        //     xmlhttp.send();
-        // }
-    </script>
 </head>
-<!--    <body onload="onPageLoad()" onresize="onPageResize()" oninvalid="onPageInvalidate()">-->
     <body>
         <div class="monitor_group">
             <canvas id="cam_pane" class="radius_panel monitor" style="height:200px;">No Single</canvas>
