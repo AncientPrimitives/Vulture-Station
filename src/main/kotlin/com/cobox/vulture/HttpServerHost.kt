@@ -11,7 +11,6 @@ import io.vertx.core.impl.future.FailedFuture
 import io.vertx.core.impl.future.SucceededFuture
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.web.Router
-import io.vertx.ext.web.RoutingContext
 import java.io.File
 
 class HttpServerHost(
@@ -47,7 +46,7 @@ class HttpServerHost(
                     this.isReusePort = httpPortReuse
                 }
             ).let { server ->
-                createFaviconHandler(httpRouter)
+                createStaticResourceHandler(httpRouter)
                 server.requestHandler(httpRouter)
                 server.listen { result ->
                     if (result.succeeded()) {
@@ -105,26 +104,23 @@ class HttpServerHost(
         }
     }
 
-    private fun createFaviconHandler(router: Router) {
-        val routeFile :((String) -> Unit) = { file ->
-            router.route(file).blockingHandler { ctx ->
-                val favicon = File(staticResourceRoot).canonicalPath + file
-                vertx.fileSystem().readFile(favicon) {
-                    if (it.succeeded()) ctx.end(it.result()) else ctx.fail(403)
-                }
+    private fun createStaticResourceHandler(router: Router) {
+        // Favicon
+        router.get("/favicon.ico").blockingHandler { ctx ->
+            vertx.fileSystem().readFile(
+                File(staticResourceRoot).canonicalPath + "/favicon.ico"
+            ) {
+                if (it.succeeded()) ctx.end(it.result()) else ctx.fail(403)
             }
         }
 
-        routeFile("/favicon.ico")
-        routeFile("/require.js")
-        routeFile("/SystemMonitorLoader.js")
-        routeFile("/SystemMonitorPage.js")
-        routeFile("/SystemMonitor.js")
-        routeFile("/Animation.js")
-        routeFile("/HUD/HUD.js")
-        routeFile("/HUD/CircleMeter.js")
-        routeFile("/HUD/CurveMeter.js")
-        routeFile("/fonts/GemunuLibre-SemiBold.ttf")
-        routeFile("/fonts/DottedSongtiSquareRegular.otf")
+        // Another static resource
+        router.route().last().blockingHandler { ctx ->
+            vertx.fileSystem().readFile(
+                File(staticResourceRoot).canonicalPath + ctx.normalizedPath()
+            ) {
+                if (it.succeeded()) ctx.end(it.result()) else ctx.fail(403)
+            }
+        }
     }
 }
